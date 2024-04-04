@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>함수</title>
+	<link rel="shortcut icon" href="#" type="image/x-icon">
+</head>
+<body>
+    <h1>함수</h1>
+	- 코드를 저장 할 수 있는 수단 <br>
+	- function이라는 키워드로 선언하여 코드를 저장한다. <br>
+	- 함수를 호출을 하려면 먼저 선언이 되어 있어야 호출이 가능하다. <br>
+	- 자바스크립트 함수는 익명함수와 일반함수가 있다.<br>
+	- 함수 실행은 함수명 혹은 참조변수 (); -> 함수 실행
+	
+  	<h3>*일급함수*</h3>
+	- 일급함수는 함수를 다른 함수에 매개변수로 전달이 가능하거나, 변수에도 할당이 가능한 함수이다.<br>
+  (변수에 담을 수 있고, 인자나 값으로도 사용이 가능하다)
+	- 1.무명의 리터럴로 생성할 수 있다. 즉, 런타임에 생성이 가능하다. <br>
+	- 2.변수나 자료구조(객체, 배열 등)에 저장할 수 있다. <br>
+	- 3.함수의 매개변수에 전달할 수 있다. <br>
+	- 4.함수의 반환값으로 사용할 수 있다. <br>
+	
+	<h3>일반함수 선언 및 호출</h3>
+	- 일반함수는 호이스팅 기술을 지원한다.<br>
+	(아래에 함수가 선언이 되어 있더라도 위에서 호출 가능)
+	- 함수 선언 후에 {} -> 스코프 (블럭, 유효범위) <br>
+	- 함수는 지역변수와 전역변수의 차이가 확실하다. <br>
+
+	<script type="text/javascript">
+
+		let num1 =1;
+		let num2 =2;
+		let result = sum1(num1,num2);
+		console.log(result);
+		let num3 =3;
+		let num4 =4;
+		result = sum1(num3,num4);
+		console.log(result);
+		let num5 =5;
+		let num6 =6;
+		result = sum1(num5,num6);
+		console.log(result);
+
+		function sum1(a,b){
+			return a+b;
+		}
+	
+
+		//function returnFn(){
+
+		//}
+		// 함수호출시 함수의 반환값이 없을 경우 undefined 반환
+		//const fnResult = returnFn();
+		//console.log(fnResult); // undefined
+
+	</script>
+	
+	<h3>익명함수 및 함수 호출</h3>
+	- 익명함수는 대입을 해야 선언이 가능하다. <br>
+	- 익명함수는 위에서 선언이 되어 있어야 아래서 호출이 가능하다.(호이스팅 기술 x)
+	<script type="text/javascript">
+			const fn1 = function(){
+			console.log('익명함수 호출');
+		}
+		// 실행단계가 지나고 나서야 호출가능
+		fn1();
+
+		//화살표 함수 ( ES6문법 이상 선언 가능 )
+		const arrowFn11 = () => {
+			console.log('화살표 함수1 호출');
+		}; //함수선언식이 값으로 표현된다
+		const arrowFn22 = () => console.log('한블럭일경우 화살표 함수 호출');
+
+		arrowFn11();
+		arrowFn22();
+
+
+
+
+
+		//fn1(); - >익명함수는 위에서 선언이 되어 있어야 아래서 호출이 가능하다.
+		const fn11 = function(){
+			console.log('fn11은 익명함수입니다');
+		}
+		const fn2 = function(){
+			console.log('익명함수는 선언먼저하고 호출해야합니다');
+		}
+		fn1();
+		fn2();
+
+
+		// --------------------화살표 함수 -----------------------------
+		const arrowFn1 = () =>{
+			console.log("arrowFn1 은 화살표 함수 입니다");
+		}
+
+		const arrowFn2 = () =>{
+			console.log("화살표 함수 연습");
+		}
+
+		const arFn1 = () => {
+			console.log('화살표 함수');
+		}
+
+		arrowFn1();
+		arrowFn2;
+		arFn1();
+	</script>
+	
+	<h2>즉시 실행 함수</h2>
+	- 함수 선언과 동시에 함수호출
+	<script type="text/javascript">
+
+		(function () {
+			console.log('즉시실행 함수');
+		})();
+		
+
+		(function (){
+			console.log('즉시실행 함수 연습')
+		}) ();
+
+		(function() {
+			console.log('즉시실행 함수 연습2')
+		}) ();
+	</script>
+	
+	
+	<h2>매개변수</h2>
+	- 함수 호출시 인수를 삽입하여 호출할 수 있다. <br>
+	- 함수 내부에서 인자 값을 받을때 매개변수로 받는다.<br>
+	- 함수 호출시 함수를 인수로 받아 매개변수에 할당된 함수를 호출할 수 있다.
+    - arguments : 일반함수 호출 시 전달된 인수들의 정보를 담고있는 순회 가능한 유사 배열 객체 
+	- function(){ arguments } 
+	- rest 파라미터 : 함수에 전달된 인수들의 목록을 배열로 전달받는 매개변수
+    - (...rest) => {} : 화살표함수에는 arguments 속성을 가질 수 없다.
+	<script type="text/javascript">
+		function fn23(){
+			console.log('함수 fn2 호출');
+		}
+
+		function fn3(name){
+			console.log('함수 호출');
+		}
+		fn3();// 동일한 함수명이 존재할 경우 맨 마지막으로 선언한 함수 호출 ( 메소드 오버로딩 x)
+
+		function print(){
+			console.log('호출 가능');
+			console.log(arguments); // arguments (내가 호출한 함수의 유사배열 / 화살표함수에서는 x)
+			if(arguments.length > 0 ){
+			let value =''; //문자 초기값 설정
+				for(const arg of arguments){					
+					if(typeof arg == 'number'){
+						value += `${arg}기 `;
+					}else {
+						value += arg;
+					}
+				}
+				console.log(value);
+				//console.log(`${gisu}기${name}`)
+			} else {
+				console.log('콘솔 출력');
+			}
+		}
+		print();
+		print(51, '홍길동');
+		
+
+		// arguments 이해
+		function kmsart(){
+			if(arguments.length > 0){
+			let val = '';
+				for(const std of arguments){
+					if(typeof std == 'number'){
+						val += std;
+					}else{
+						val += std;
+					}
+					
+				}
+				console.log(val);
+			}
+		}
+
+		kmsart(22, '김씨');
+
+		/*
+			- 스프레드 문법(전개 문법) -
+			배열 혹은 유사배열의 요소들(집합)을 개별적인 값의 목록으로 만듦
+
+			스프레드 문법을 사용할 수 있는 문맥
+			1. 함수 호출문의 인수 혹은 함수 정의문의 매개변수(...rest)
+			2. 배열의 리터럴의 요소
+			3. 객체 리터럴의 프로퍼티 목록
+		*/
+
+		const arr =[1,2,3,4];
+		const copyArr = [...arr];
+		console.log(`${arr}`);
+		console.log(`${copyArr}`);
+		const obj = {'name' : '홍길동'};
+		const copyObj = {...obj};
+		console.log(obj);
+		console.log(copyObj);
+		const restFn = (...rest) => {
+			console.log(rest);
+		}
+		restFn(...arr);
+		//restFn(1,2,3,4);
+		
+		var arr1 =[1,2,3];
+		var copy1 = arr1;
+		var [...copy2] = arr1;
+		var copy3 = [...arr1];
+
+		console.log(arr1);
+		console.log(copy1);
+		console.log(copy2);
+		console.log(copy3);
+
+
+		//콜백 함수
+		function main(callbackFn){
+			console.log(callbackFn);
+			//callbackFn();
+		}
+		main(function(){
+			console.log('콜백함수 호출');
+		});
+	</script>
+	
+	
+	<h2>return</h2>
+	- 함수 내에서 쓰일 수 있는 키워드 <br>
+	- 함수를 호출 하는곳에 값을 전달 할 수 있다. <br>
+	- 함수를 강제 종료 한다. <br>
+	<script type="text/javascript">
+		// 매개변수가 하나면 괄호 생략 가능
+		const arrowFn3 = () => {
+			console.log('return 키워드 전 구문 실행');
+			return 16; // return 키워드를 만나면 함수 종료, return 시 반환값이 없을 경우 undefined 값이 반환된다
+			console.log('return 키워드 후 구문');
+		}
+		const retunrvalue = arrowFn3(); // 호출한곳에 반환값이 남음 
+		console.log(retunrvalue);
+
+		const returnObj = name => {
+			return {
+				'name ' : name
+			}
+		}
+		console.log(returnObj('홍길동'));
+		/*
+			디스트럭처링(구조분해 할당)
+			- 구조 분해 할당이란 어떤 것을 복사한 이후 변수로
+			  기존 자료를 분해한 후 할당하는 것을 의미
+			  그렇다고 기존 자료형이 수정 파괴되지 않는다.
+		*/ 
+		const studenArr = [51, '홍길동'];
+		const [ksGisu,studentName]= studenArr;
+		console.log(studenArr);
+		console.log(ksGisu);
+		//console.log(StudenName);
+
+		const {idol} = {'idol' : '녹색지대'};
+		console.log(idol);
+
+
+		const returnObjFn = name => {
+			return { name }
+		}
+		console.log(returnObj('홍기동'));
+	</script>
+	
+	<h2>함수 return</h2>
+	<h3>고차함수</h3>
+	- 고차함수: 함수를 반환하는 함수를 말한다.
+	<script type="text/javascript">
+		function reFn(){
+			return function (){
+				console.log('반환된 함수 정의문 호출');
+			}
+		}
+		console.log(reFn());
+		reFn()();
+		const retunrFnVal = reFn();
+		retunrFnVal();
+	</script>
+	
+	<h2>내부 함수</h2>
+	- 함수 내의 함수
+	- 함수 호출 방식(javascript는 렉시컬 스코프 방식)
+	- 동적 스코프 : 함수가 호출되는 시점(어디에서 호출?)에 따라 상위 스코프 결정
+	- 렉시컬 스코프 : 함수가 정의되는 시점(어디에서 정의?)에 따라 상위 스코프 결정
+	<script type="text/javascript">
+		let num = 10;
+		function outFn(){
+			let num = 20;
+			callFn();
+		}
+		function callFn(){
+			console.log(num);
+		}
+		outFn();
+	</script>
+    
+  <h1>함수 - 재귀호출</h1>
+	- 함수 내부에서 나 자신을 호출 
+	<script type="text/javascript">
+		function recurFn(cnt){
+			console.log('재귀함수');
+			if(cnt == 0) return; // return 종료시점이 중요하다
+			recurFn(cnt -1)
+		}
+		recurFn(5);
+
+		function recur(dig){
+			if(dig == 0) return 1;
+			return dig * recur(dig -1);
+			console.log(dig);
+		}
+		console.log(recur(5))
+	</script>
+</body>
+</html>
