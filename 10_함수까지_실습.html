@@ -8,28 +8,73 @@
 	<h2>실습1</h2>
 	실습. 두수의 사칙연산의 결과를 반환하는 함수를 작성하시오.
 	<script>
-		
 		const calcResult = calc(4, '/', 2);
 		console.log(calcResult);
+
+	
 	</script>
 
     <h2>실습2</h2>
 	실습. 아래의 실행코드에서 에러가 발생하지 않도록 메서드 내의 코드를 완성하여라.
 	<script type="text/javascript">
 		const nObj = {
-				nArr : []
-				
+			nArr : [],
+			addN(num1){
+				this.nArr.push(num1); // 배열에 num1 푸쉬
+				return this; // 현재객체 리턴
+			},
+			sum(){
+				// const thisnArr = this.nArr; 이렇게 선언하면 아래 for문에서 thisnArr
+				let total = 0;
+				for(const element of this.nArr){
+					total += element
+				}
+				return total;
+			}	
 		}
-		var result = nObj.addN(10).addN(10).addN(10).addN(10).addN(10).sum()
+		var result = nObj.addN(10).addN(10).addN(10).addN(10).addN(10).sum();
 		console.log(result, '결과값');
 	</script>
 
 	<h2>실습3</h2>
 	실습. 아래의 실행 코드를 보고 선언부를 완성하여라.
 	<script type="text/javascript">
+		// 배열의 내장메소드 flat() : 배열 깊이 평탄화
+		// flat(Infinity) : 배열의 깊이를 모를때
+		/*
 		const obj = {
-			
+			addArr(...arr){
+				let total = 0;
+
+				for(const element of arr){
+					if(Array.isArray(element)){
+						total += this.sumArr(element);
+						continue;
+					}
+					total += element;
+				}
+				return total;
+			},
+			sumArr(targetArr){
+				let total = 0;
+				for(const element of targetArr){
+					total += element
+				}
+				return total;
+			}
 		}
+		*/
+		const obj = {
+			addArr(...arr){
+				let result = 0; 
+				for(const element of arr.flat(Infinity)){
+					result += element;
+				}
+				return result;
+			}
+		}
+		
+		
 		var result = obj.addArr([10,20,30],[40,50,60],[70,80,90]);
 		console.log(result, '결과값');
 		
@@ -39,16 +84,23 @@
 	실습. 아래는 배열의 깊이만큼 깊은 복사를 재귀함수호출로 구현한 함수정의문이다.
 	다음 함수의 코드를 완성하시오.
 	<script>
+		// (target) 에는 target Arr가 담김
 		function recurDeepCopy(target){
 			let copy;
+			// target에 담긴 값이 배열인지 물어봄 if문 괄호 안내용 
 			if(Array.isArray(target)){
-				
+				// target이 배열이면 이곳 실행
+				copy =[]; // copy 배열생성
+				for(const element of target){
+					//copy에 푸시 해주겠다 , target에 담긴 배열의 값을 ( 재귀함수)
+					copy.push(recurDeepCopy(element))
+				}
 			}else{
-				
+				copy = target;
 			}
+			
 			return copy;
 		}
-
 		const targetArr = [1,[2,[3,[4,[5]]]]];
 		const deepCopy = recurDeepCopy(targetArr);
 

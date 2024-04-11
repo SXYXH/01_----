@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>콜백 함수</title>
+<link rel="icon" href="data:,">
+</head>
+<body>
+	<h1>콜백 함수</h1>
+	- 콜백함수: 함수의 매개변수를 통해 다른 함수의 내부로 전달되는 함수
+	- 고차함수: 변수를 통해 함수의 외부에서 콜백함수를 전달받은 함수
+	- 비동기화 코드 작동시 데이터를 전달하기 위해 주로 쓰인다. <br>
+	- 주로 이벤트에서 사용 된다. <br>
+	- 등록해놓은 함수가 특정 이벤트의 발동에 의해 실행이 되고 실행에 결괏값을 
+	  등록해놓은 함수를 실행하면서 인수로 얻어진 값을 던져준다.
+	  
+	<script type="text/javascript">
+	// 동기 : 위의 작업이 끝날떄까지 기다렸다가 다음작업 실행 1끝나고 2끝나고 3 ....
+		
+		const num1 = 1;				//1
+		const num2 = 2;				//2
+		const result = num1 + num2;	//3
+		console.log(result)	;		//4
+
+
+	// 비동기 : 위의 작업이 끝나는것을 기다리지않고 다음 작업 실행 
+	/*
+		const print2Fn = () => console.log('B작업 실행');
+
+		function process(callbackFn){
+			setTimeout(function(){
+				console.log('A작업 실행');
+				callbackFn();
+			},3000); // 1000단위당 1초  n초후에 실행하라는 함수
+		}
+		process(print2Fn);
+	*/
+		//이거먼저 이해하고 위에 코드 이해하기
+		function process(callbackFn){
+			console.log('A작업 실행');
+			callbackFn();
+		}
+
+		process(function(){
+			console.log('B작업 실행');
+		})
+		
+		function sumFn(callbackFn){
+			let result = 10;
+			console.log('result 처리 완료');
+			callbackFn(result);
+		}
+		sumFn(function(result){
+			console.log('콜백 함수 호출');
+			console.log(`결과값 : ${result}`);
+		})
+
+		//20씩 누적될 수 있는 함수 선언
+		function exSumFn(num, callbackFn){
+			setTimeout(function(){
+				callbackFn(num+= 20);
+			}, 1000);
+				
+		}
+		exSumFn(0, function(result){
+			console.log(`결과값 ${result}`);
+			exSumFn(result, function(result){
+				console.log(`결과값 ${result}`);
+				exSumFn(result, function(result){
+					console.log(`결과값 ${result}`);
+					exSumFn(result, function(result){
+						console.log(`결과값 ${result}`);
+						exSumFn(result, function(result){
+							console.log(`결과값 ${result}`);
+						})
+					})
+				})
+			})
+		})
+
+	</script>
+	
+	<h2>이벤트와 비동기화 코드 예</h2>
+	<button type="button" id="myBtn">클릭</button>
+	<script type="text/javascript">
+
+	</script>
+	
+	<h2>콜백 함수 예시</h2>
+	<script type="text/javascript">
+		
+	</script>
+	
+	<h2>이벤트 콜백데이터 활용 예제</h2>
+	<div id="myText" style="position: absolute;">한국스마트정보교육원</div>
+	<script type="text/javascript">
+		
+	</script>
+
+</body>
+</html>
