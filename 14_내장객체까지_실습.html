@@ -183,8 +183,21 @@
                         {"baseDate":"20231117","baseTime":"1400","category":"TMP","fcstDate":"20231123","fcstTime":"1900","fcstValue":"15","nx":63,"ny":89},
                         {"baseDate":"20231117","baseTime":"1400","category":"REH","fcstDate":"20231123","fcstTime":"1900","fcstValue":"75","nx":63,"ny":89}
                         ];
-						//fcstDate를 20231123기준으로 가져온다
-						const parseFcst = {};
+		//fcstDate를 20231123기준으로 가져온다
+		const rsObj = {};
+		const rs =response.filter(item => {
+			const cateArr=['SKY','TMP','REH'];
+			return item.fcstDate == '20231123' && cateArr.includes(item.category)
+		})
+		rs.forEach(item => {
+			const cate = item.category;
+			rsObj[cate] = item.fcstValue;
+		})	
+		console.log(rsObj);
+		console.log(rs);
+
+
+		const parseFcst = {};
 		response.reduce((acc, cur)=>{
 			if(cur.fcstDate == '20231123'){
 			const cate = cur.category;
