@@ -64,7 +64,12 @@
       <li>ksmart교직원실</li>
     </ul>
     <script>
-
+      const $allTag = document.getElementsByTagName('*');
+      console.log($allTag);
+      const $inputTag = document.getElementsByTagName('input');
+      console.log($inputTag[0]);
+      const $imgTag = document.getElementsByTagName('img');
+      console.log($imgTag, 'HTMLcollection 빈배열반환');
     </script>
 
     <h2>class를 이용한 요소노드 취득</h2>
@@ -87,6 +92,16 @@
         }
         */
        //console.log([...$ksmart]);
+
+       //1. while 문을 통해 이슈 해결
+       /*
+       let idx = 0;
+       while ($ksmart.length > 0) {
+        $ksmart[idx].className = 'ksmart51';
+       }
+       */
+
+       // 2. 배열로 변환해 이슈 해결 -> 개추
        [...$ksmart].forEach(item => {
         item.className = 'ksmart51';
        })
@@ -129,7 +144,10 @@
         const $ks301 = document.querySelector('.ksmart301');
         console.log($ks301);
         const $ks304 = document.querySelector('.ksmart304');
-        console.log($ks304);
+        console.log($ks304, '<- 찾으려는 요소 없을시 null반환');
+        //  css 선택자 문법에 맞지않으면 에러
+        //const $inputEle = document.querySelector('input[');
+        //console.log($inputEle);
     </script>
     <h3>querySelectorAll</h3>
     - document.querySelectorAll(css선택자);<br>
@@ -141,7 +159,11 @@
       <li class="ksmart-course">ksmartIT과정</li>
     </ul>
     <script>
-      
+      const $ksCourse = document.querySelectorAll('.ksmart-course');
+      console.log($ksCourse);
+      $ksCourse.forEach(element => console.log(element.textContent));
+      // 유사 배열이므로 배열로 변환하여 사용
+      console.log([...$ksCourse]);
     </script>
 
     <h2>특정 요소노드 취득 여부 확인</h2>
@@ -150,12 +172,16 @@
     - 선택한 요소가 다른 css 선택자문법의 요소로 취득할 수 있는지 확인<br>
     - li.ksmart50 == li[class="ksmart50"]
     <ul id="ksmart">
-      <li class="ksmart50">50기</li>
-      <li class="ksmart51">51기</li>
-      <li class="ksmart52">52기</li>
+      <li class="ks50">50기</li>
+      <li class="ks51">51기</li>
+      <li class="ks52">52기</li>
     </ul>
     <script>
-        
+        const $ks51 = document.querySelector('.ks51');
+        let isGet = $ks51.matches('li.ks51');
+        console.log(isGet);
+        isGet = $ks51.matches('div>li.ks51');
+        console.log(isGet);
     </script>
 </body>
 </html>

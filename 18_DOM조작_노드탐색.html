@@ -9,7 +9,9 @@
     <h1>DOM 노드탐색</h1>
     - 요소노드를 취득한 다음, 취득한 요소노드를 기점으로 부모, 형제, 자식 노드 탐색
     <script>
-       
+       const $body = document.querySelector('body');
+       console.log($body);
+       console.log($body.parentNode);
     </script>
     <h2>자식노드 탐색</h2>
     - 자식노드를 탐색하기위해서 탐색 프로퍼티 사용<br>
@@ -27,9 +29,43 @@
         <li class="ksmart301">강의실 301호</li>
         <li class="ksmart302">강의실 302호</li>
     </ul>
-
+    <div id="ksmartDiv"></div>
     <script>
+       const $ksmart = document.getElementById('ksmart');
+       // childNodes : 모든 노드를 nodelist에 담아 반환 ( 아래예시 : text라는 공백 노드 포함)
+       const $ksNodes = $ksmart.childNodes
+       console.log($ksNodes);
+       // firstChild : 모든 자식노드중에서 첫번째 자식노드 반환
+       console.log($ksmart.firstChild);
+       //  lastchild : 모든 자식노드중에서 마지막 자식노드 반환
+       console.log($ksmart.lastChild);
+       // children : 요소노드만 HTMLCollection에 담아서 반환한다
+       const $ksEles = $ksmart.children;
+       console.log($ksEles);
+       // firstElementChild : 자식노드의 요소노드중 첫번째 요소 반환
+       console.log($ksmart.firstElementChild);
+       // lastElementChild : 자식노드의 요소노드중 마지막 요소 반환
+       console.log($ksmart.lastElementChild);
+
+       // 자식노드를 css 선택자를 통해서 취득할 수 있다
+
+       const $li = $ksmart.querySelector('li');
+       const $liEles = $ksmart.querySelectorAll('li');
        
+       console.log($li);
+       console.log($liEles);
+
+       const $ksamrtDiv = document.querySelector('#ksmartDiv');
+
+       //자식노드가 없을시 어떤 자료형을 반환?
+       const $ksDivNodes = $ksamrtDiv.childNodes;
+       console.log($ksDivNodes);
+       const $ksDivchNodes = $ksamrtDiv.children;
+       console.log($ksDivchNodes);
+       const $ksDivfirNodes = $ksamrtDiv.firstChild
+       console.log($ksDivfirNodes);
+       const $ksDivfirelNodes = $ksamrtDiv.firstElementChild;
+       console.log($ksDivfirelNodes);
     </script>
 
     <h2>자식 노드 존재 여부 확인</h2>
@@ -42,8 +78,16 @@
         <li class="ks51">한국스마트정보교육원51기</li>
     </ul>
 
-    <script>
+    <div id ="ksDiv">
+    </div>
 
+    <script>
+       const $ks = document.getElementById('ks');
+       const $ksDiv = document.querySelector('#ksDiv');
+       // hasChildNodes : 모든 자식노드를 포함하여 존재여부 판단, 공백노드 포함
+       console.log($ks.hasChildNodes());
+       console.log($ks.childNodes.length > 0);
+       console.log($ksDiv.hasChildNodes());
     </script>
 
     <h2>부모노드 탐색</h2>
@@ -61,7 +105,21 @@
         </div>
     </div>
     <script>
+        const $pTagParents = document.getElementById('pText').parentNode;
+        console.log($pTagParents);
 
+        const $lable1 = document.querySelector('#label1');
+        const $div2 = $lable1.parentNode;
+        const $div1 = $lable1.parentNode.parentNode;
+        console.log($div2);
+        console.log($div1);
+
+        // 조상을 탐색하는 방법
+        // closest(css 선택자) : css 선택자에 일치하는 가장 인접한 조상노드 반환
+        const $cDiv2 = $lable1.closest('div');
+        const $cDiv1 = $lable1.closest('div#div1');
+        console.log($cDiv2);
+        console.log($cDiv1);
     </script>
 
     <h2>형제 노드 탐색</h2>
@@ -79,7 +137,22 @@
     </ul>
 
     <script>
-       
+       const $room302 = document.getElementsByClassName('room302');
+       console.log($room302.item(1));
+       console.log($room302[1]);
+       console.log($room302.length);
+       //namedItem :  id,name 속성값 검색
+       //console.log($room302.namedItem());
+
+       const $teacherRoom = document.querySelector('.teacher-room');
+
+       console.log($teacherRoom);
+       // 이전 형제노드 탐색
+       console.log($teacherRoom.previousSibling);
+       // 이전 형제요소노드 탐색
+       console.log($teacherRoom.previousElementSibling);
+       // 이후 형제요소노드 탐색
+       console.log($teacherRoom.nextElementSibling);
     </script>
 
 </body>
