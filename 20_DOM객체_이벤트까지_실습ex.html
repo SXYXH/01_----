@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" href="data:,">
+    <link rel="icon" href="data:">
     <title>DOM객체 이벤트까지 실습</title>
     <link rel="stylesheet" type="text/css" href="css/modal.css"/>
 </head>
@@ -12,14 +12,43 @@
     출력하도록하시오.
 	<br>	
 	<form name="myNum">
-		<input type="text" name="n1"> x
+		<input type="text" name="n1" > x
 		<input type="text" name="n2"> =
 		<input type="text" name="result" readonly>
-		<button type="button">계산하기</button>
+		<button type="button"id = 'button'>계산하기</button>
 	</form>
-	
+   
 	<script type="text/javascript">
+      // reslut = n1 + n2
+      //버튼 누르면  n1 n2 값 불러와서 합한다음 result에 인풋?
+      /*
+      const $n1 = document.getElementsByName('n1')[0];
+      const $n2 = document.getElementsByName('n2')[0];
+      const $result = document.getElementsByName('result')[0];
+      const $button = document.getElementById('button');
+
+      $button.addEventListener('click',function(){
+        const value1 = parseInt($n1.value);
+        const value2 = parseInt($n2.value); 
+        $result.value = value1 * value2;
+        console.log(result);    
+      });
+    */
+
        
+      //성식님 풀이
+      const $n1 = document.querySelector('form[name="myNum"]>input[name="n1"]');
+      const $n2 = document.querySelector('form[name="myNum"]>input[name="n2"]');
+      const $btn = document.querySelector('form[name="myNum"]>button');
+      const $result = document.querySelector(
+        'form[name="myNum"]>input[name="result"]'
+      );
+      const $resultVal = $result.value;
+      $btn.addEventListener("click", function () {
+        $result.value = Number($n1.value) * Number($n2.value);
+      });
+      
+      
 	</script>
 
     <h2>실습2</h2>
@@ -43,10 +72,24 @@
         }
     </style>
     <section>
+     
     </section><br><br>
     <input type="number" id="times" value="2" min="2" max="9" placeholder="단을 입력하시오"/> 
     <button id="guguBtn">구구단 출력</button>
     <script type="text/javascript">
+    //테이블 방식
+    //버튼 눌리면 이벤트
+    const $guguBtn = document.getElementById('guguBtn');
+    const $times = document.getElementById('times');
+    const $tr = document.createElement("tr");
+    const $value = $times.value
+    $guguBtn.addEventListener('click',function(){
+        for(let i = 1;i<10;i++){
+            print = `${$value} *${i} = ${$value*i}`
+            console.log(print);
+        }
+    })
+
        
 	</script>
 
@@ -57,6 +100,23 @@
     <div id="bgDiv" style="height: 100px; width: 100px;"></div>
 
     <script type="text/javascript">
+        const $bgChangeBtn = document.getElementById('bgChangeBtn');
+        const $bgDiv = document.getElementById('bgDiv');
+        
+        let roop = 0;
+        $bgChangeBtn.addEventListener('click',function(){
+            
+            if(roop == 0){
+                $bgDiv.style.backgroundColor = 'red';
+                roop++;
+            }else if(roop == 1){
+                $bgDiv.style.backgroundColor = 'blue';
+                roop++;
+            }else{
+                $bgDiv.style.backgroundColor = 'green';
+                roop = 0;
+            }
+        });
         
     </script>
 
@@ -117,7 +177,9 @@
       </div>
     </div>
     <script type="text/javascript">
-        
+        const $allcheck  = document.getElementById('allcheck');
+        const $mCheck = document.getElementsByClassName('mCheck');
+
     </script>
 
     <h2>실습5</h2>
