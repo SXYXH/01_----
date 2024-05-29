@@ -200,7 +200,18 @@
     <span id="totalPriceText" style="color: #f00; font-size: 25px">0</span>원
 
     <script type="text/javascript">
-        
+       const $goodsPrice = document.getElementById('goodsPrice');
+       const $totalPrice = document.getElementById('totalPrice');
+       const $totalPriceText = document.getElementById('totalPriceText');
+       const $num = document.getElementById('num');
+       const goodsValue = $goodsPrice.value;
+       
+       $num.addEventListener('change',function(){
+            $totalPriceText.value = goodsValue * $num.value;
+            $totalPriceText.textContent = $totalPriceText.value;
+       })
+       
+       
     </script>
     <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 </body>
