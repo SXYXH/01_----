@@ -264,9 +264,17 @@
     <br><br>
     총 합산 가격 : 
     <span id="totalPriceText" style="color: #f00; font-size: 25px">0</span>원
-
-    <script type="text/javascript">
         
+    <script type="text/javascript">
+        const $num = document.querySelector('#num');
+
+        $num.addEventListener('change', function(){
+            const amount = $num.value;
+            const $span = document.querySelector('span[style="color: #f00;"]');
+            const value = $span.textContent;
+            const $span2 = document.querySelector('span[style="color: #f00; font-size: 25px"]');
+            $span2.textContent = Number($span)  *Number(value);
+        })
     </script>
     <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 </body>
