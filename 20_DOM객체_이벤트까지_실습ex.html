@@ -20,7 +20,8 @@
    
 	<script type="text/javascript">
       // reslut = n1 + n2
-      //버튼 누르면  n1 n2 값 불러와서 합한다음 result에 인풋?
+      //버튼 누르면  n1 n2 값 불러와서 합한다음 result
+
       /*
       const $n1 = document.getElementsByName('n1')[0];
       const $n2 = document.getElementsByName('n2')[0];
@@ -72,23 +73,16 @@
         }
     </style>
     <section>
-     
     </section><br><br>
     <input type="number" id="times" value="2" min="2" max="9" placeholder="단을 입력하시오"/> 
     <button id="guguBtn">구구단 출력</button>
     <script type="text/javascript">
     //테이블 방식
     //버튼 눌리면 이벤트
-    const $guguBtn = document.getElementById('guguBtn');
-    const $times = document.getElementById('times');
-    const $tr = document.createElement("tr");
-    const $value = $times.value
-    $guguBtn.addEventListener('click',function(){
-        for(let i = 1;i<10;i++){
-            print = `${$value} *${i} = ${$value*i}`
-            console.log(print);
-        }
-    })
+    const $times = document.querySelector('#times');
+    const times = Number($times.value);
+   
+      
 
        
 	</script>
@@ -177,9 +171,24 @@
       </div>
     </div>
     <script type="text/javascript">
-        const $allcheck  = document.getElementById('allcheck');
-        const $mCheck = document.getElementsByClassName('mCheck');
+        const $allCheck = document.querySelector('#allCheck');
+        // allCheck 요소 가져오기
+        // 이벤트 설정
+        $allCheck.addEventListener('click', e=>{
+            const target = e.target;
+            const $mChecks = document.querySelectorAll('.mCheck');
+            $mChecks.forEach(item => item.checked = target.checked);
+        });
 
+        const $mChecks = document.querySelectorAll('.mCheck');
+        $mChecks.forEach(item =>{
+            item.addEventListener('click', e=>{
+                const $checkedEle = document.querySelectorAll('.mCheck:checked');
+                $allCheck.checkced = ($mChecks.length == $checkedEle.length);
+            })
+        })
+
+      
     </script>
 
     <h2>실습5</h2>
@@ -207,7 +216,7 @@
        const goodsValue = $goodsPrice.value;
        
        $num.addEventListener('change',function(){
-            $totalPriceText.value = goodsValue * $num.value;
+            $totalPriceText.value = Number(goodsValue * $num.value);
             $totalPriceText.textContent = $totalPriceText.value;
        })
        
