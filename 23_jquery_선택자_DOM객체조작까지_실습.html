@@ -22,6 +22,12 @@
 	</ul>
 	<script type="text/javascript">
 
+		$('.delBtn').click(function(){
+			const $li = $('.delBtn').parent().length;
+			console.log($li);
+			if($li > 1) $(this).parent().remove();
+		});
+		//하나남게 제거안되게
 	</script>
 	
 	<h2>실습2</h2>
@@ -51,7 +57,11 @@
 	</ul>
 	
 	<script type="text/javascript">
-
+		//클릭하면 ksmart로 변경
+		
+		$('.cBtn').click(function() {
+            $(this).parent().siblings('.text').text('ksmart');
+        });
 	</script>
 	
     <h2>실습3</h2>
@@ -64,6 +74,11 @@
 			<tr>
 				<th>
 					<input type="checkbox" id="allCheck">전체체크
+				</th>
+			</tr>
+			<tr>
+				<th>
+					<button type="button" id="addCate" style="width: 100%;">항목추가</button>
 				</th>
 			</tr>
 		</thead>	
@@ -88,7 +103,43 @@
 	<button type="button" id="delCheckBtn">선택된 대상 행 제거</button>
 	
 	<script type="text/javascript">
+		$('#allCheck').click(function(){
+			const check = $(this).prop('checked');
+			$('.checks').prop('checked', check);
+		});
+		
+		$('#addCate').click(function(){
+			const $tbody = $(this).closest('table').find('tbody');
+			const length = $tbody.children().length;
+			let cnt = 0;
+			if(length > 0){
+				cnt = Number($tbody.find('input:last')[0].nextSibling.nodeValue.substring(1));
+			}
+			//const cnt = $tbody.children().length;
+			const $tr = $('<tr></tr>');
+			const $td = $('<td></td>').text(`행${cnt+1}`);
+			const $input = $('<input />',{'type':"checkbox", 'class':"checks" });
+			$td.prepend($input);
+			$tr.append($td);
+			$tbody.append($tr);
+			/*
+			$tbody.find('tr').each((idx, item)=>{
+				const text = $(item).find('input')[0].nextSibling.nodeValue= `행${idx+1}`;
+				console.log(text);
+			})
+			*/
+			$('#allChecks').prop('checked', false);
+		});
 
+		$(document).on('click','checks',function(){
+			$('#allCheck').prop('checked',
+								$('.checks').length== $('.checks:checked').length);
+		});
+		
+		$('#delCheckBtn').click(function(){
+			$('.checks:checked').closest('tr').remove();
+			$('#allCheck').prop('checked', false);
+		})
 	</script>
 	
 	<h2>실습4</h2>
@@ -96,7 +147,12 @@
 	<br>
 	<button type="button" id="bgChange">배경색 변환</button>
 	<script>
-
+		//배경색 
+		const colorArr = ['red','blue','green'];
+		const cnt = (num = () => num++)(0);
+		$('#bgChange').click(function(){
+			$('body').css('background-color', colorArr[cnt() % colorArr.length]);
+		});
 	</script>
 	
     <h2>실습5</h2>
@@ -225,7 +281,64 @@
 		</table>
 	</form>
 	<script>
-		
+		$('#addRows').click(function(){
+			const rowCnt = $('#trCount').val();
+			console.log(rowCnt);
+
+			const createRow = () =>{
+				const content =[
+					{
+					'tagName' :'checkbox',
+					'type': 'checkbox',
+					'class':'memberCheck'
+					},
+					{
+					'tagName' :'input',
+					'type': 'text',
+					'class':'memberId'
+					},
+					{
+					'tagName' :'input',
+					'type': 'text',
+					'class':'memberPw'
+					},
+					{
+					'tagName' :'input',
+					'type': 'text',
+					'class':'memberName'
+					},
+					{
+					'tagName' :'input',
+					'type': 'text',
+					'class':'memberAddr'
+					},
+					{
+					'tagName' :'input',
+					'type': 'text',12
+					'class':'memberEmail'
+					},
+					{
+					'tagName' :'button',
+					'type': 'button',
+					'class':'addButton'
+					},
+
+				];
+			
+
+			const $tr = $('<tr></tr>');
+			content.forEach(item =>{
+				const $td = $('<td></td>');
+				const tagName = item.tagName;
+				delete item.tagName;
+				const $element = $('<' + tagName + '>',item);
+				$td.append($element);
+				$tr.append($td);
+			});
+			return $tr;
+			};
+			for (let i = 0; i < rowCnt; i++) { $('#addMemberBody').append(createRow()); }
+		});
 	</script>
 	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 </body>
