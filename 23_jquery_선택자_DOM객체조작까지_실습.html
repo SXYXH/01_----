@@ -281,64 +281,174 @@
 		</table>
 	</form>
 	<script>
-		$('#addRows').click(function(){
-			const rowCnt = $('#trCount').val();
-			console.log(rowCnt);
-
 			const createRow = () =>{
 				const content =[
 					{
-					'tagName' :'checkbox',
+					'tagName' :'input',
 					'type': 'checkbox',
 					'class':'memberCheck'
 					},
 					{
 					'tagName' :'input',
 					'type': 'text',
-					'class':'memberId'
+					'name':'memberId'
 					},
 					{
 					'tagName' :'input',
 					'type': 'text',
-					'class':'memberPw'
+					'name':'memberPw'
 					},
 					{
 					'tagName' :'input',
 					'type': 'text',
-					'class':'memberName'
+					'name':'memberName'
 					},
 					{
 					'tagName' :'input',
 					'type': 'text',
-					'class':'memberAddr'
+					'name':'memberAddr'
 					},
 					{
 					'tagName' :'input',
-					'type': 'text',12
-					'class':'memberEmail'
+					'type': 'text',
+					'name':'memberEmail'
 					},
 					{
 					'tagName' :'button',
 					'type': 'button',
-					'class':'addButton'
+					'name':'Button'
 					},
 
 				];
-			
-
-			const $tr = $('<tr></tr>');
-			content.forEach(item =>{
-				const $td = $('<td></td>');
-				const tagName = item.tagName;
-				delete item.tagName;
-				const $element = $('<' + tagName + '>',item);
-				$td.append($element);
-				$tr.append($td);
-			});
+		const $tr = $('<tr></tr>');
+		
+		content.forEach(item =>{
+			const $td = $('<td></td>');
+			const tagName = item.tagName;
+			delete item.tagName;
+			const $element = $('<' + tagName + '/>',item);
+			$td.append($element);
+			$tr.append($td);
+			})
 			return $tr;
-			};
-			for (let i = 0; i < rowCnt; i++) { $('#addMemberBody').append(createRow()); }
+		}
+		//1. 다중행 추가
+		$('#addRows').click(function(){
+			const rowCnt = Number($('#trCount').val());
+			console.log(rowCnt);
+			if(rowCnt < 1) return;
+			$('#addMemberBody').find('button:last')
+												.addClass('delbutton')
+												.removeClass('addButton')
+												.text('삭제');
+			const rows =[]	
+			for(let i = 0; i <rowCnt; i+=1){
+				const $tr = createRow();
+				let className = 'delButton';
+				let text = '삭제';
+				if(i == (rowCnt -1)){
+					className ='addButton';
+					text = '추가';
+				}
+				$tr.find('button:last')
+							.addClass(className)
+							.text(text);
+				rows.push($tr);
+			}								
+			$('#addMemberBody').append(rows);
+			$('#trCount').val(0); // trCount 초기화
+	});
+
+	//2. 선택삭제
+	$('#removeRows').click(function() {
+		$('.memberCheck:checked').each(function() {
+			$(this).closest('tr').remove();
+			const trLength =$('#addMemberBody').children('tr').length;
+			if(trLength > 0){
+				$('#addMemberBody button:last').addClass('addButton')
+												.remove('delButton')
+												.text('추가');
+				}
+		})
+	});
+
+	//3. 행 추가 버튼 (동적으로 생성된것은 document.on)
+	$(document).on('click','.addButton',function(){
+		$('#addMemberBody button:last').addClass('delButton')
+										.removeClass('addButton')
+										.text('삭제');
+		const $row = createRow();
+		$row.find('button').addClass('addButton')
+							.text('추가');
+		$('#addMemberBody').append($row);
+	});
+
+	//4. 행 삭제 버튼
+	$(document).on('click','.delButton', function(){
+		$(this).closest('tr').remove();
+	})
+
+	//5. 선택 등록
+	// 아이디 중복 체크, 빈문자열 유효성 검사 -> json data 생성
+	// element 는 tr
+	$('#addCheckedMembers').click(function(){
+		const $trEles = $('.memberCheck:checked').closest('tr');
+		const addMemberList = [];
+		let isSubmit = true;
+		const idCheck =[];
+
+		$trEles.each((idx,element) => {
+			const memberInfo = {};
+			const inputEles = $(element).find('input').not('.memberCheck');
+			inputEles.each((idx, element) => {
+				const name = $(element).attr('name');
+				const value = $(element).val().trim();
+				// 빈문자열 유효성 검증
+				if(!value){
+					const cate = $('#addMemberForm th').eq(idx+1).text();
+					alert(`${cate} 필수 입력항목입니다.`);
+					$(element).focus();
+					isSubmit = false;
+					return false;
+				}
+				//아이디 중복 유효성 검증
+				if(name == 'memberId'){
+					//아이디 중복체크
+					if(idCheck.includes(value)){
+						alert('중복된 아이디');
+						$(element).val('');
+						$(element).focus();
+						isSubmit = false;
+						return false;
+					}
+					idCheck.push(value);
+				}
+				memberInfo[name] = value;
+			});
+			if(!isSubmit) return false;
+			addMemberList.push(memberInfo);
 		});
+		if(isSubmit) {
+			// JSON.stringify(객체자료형(객체{},배열[])) : 객체데이터를 json 포맷방식의 문자열로 반환
+			const josnFormat = JSON.stringify(addMemberList);
+			console.log(addMemberList);
+			console.log(josnFormat);
+
+			//JSON.parse(json 포맷방식을 준수한 문자열) : 해당문자열을 javascript 객체로 변환하여 반환
+			const jsonObject = JSON.parse(josnFormat);
+			console.log(jsonObject);
+			
+		}
+		
+		
+	});
+
+	//6. 전체 등록
+	$('#addMembers').click(function(){
+		const $trEles = $('.memberCheck').closest('tr');
+		const result = addMember($trEles);
+		if(result.isSubmit) console.log('전송');
+	});
 	</script>
 	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 </body>
